@@ -1,19 +1,28 @@
-**PricePredictorAI**
+# PricePredictorAI
 
-_Description:_
+## Description
 
-This application's goal is to help predict the price of houses in the Ontario region of Canada. The app uses Gemini to make these predictions based on the data of the house size, the number of rooms and bathrooms and the location to make price predictions. ALthough these might not be fully accurate they are a helpful tool for anyone looking to buy a house and wanting to weigh out different options for the same.
+PricePredictorAI is designed to help predict the price of houses in the Ontario region of Canada. The application leverages Gemini to estimate prices based on factors such as house size, the number of rooms and bathrooms, and location. While the predictions may not be fully accurate, they serve as a helpful tool for individuals exploring housing options.
 
-_Intended features: (Initial):_ To develop a web application that accurately estimates the price of a house based on user-provided inputs: area, number of rooms, and location.
-_Target users_: Individuals looking to buy or sell a house who want a quick price estimate.
-_Key features:_
+## Intended Features (Initial)
 
-1. User-friendly web interface for inputting house details (area, number of rooms, location).
-2. AI model to predict the house price based on the inputs.
-3. Display of the estimated price to the user.
+Develop a web application that provides accurate house price estimates based on user-provided inputs, including:
+- Area
+- Number of rooms
+- Location
 
-_Tech Stack used: (Initial)_
+## Target Users
 
-Front-end: HTML, CSS, JS and React
-Back-end: Python and Django
-Database: SQL
+Individuals looking to buy or sell a house who need a quick price estimate.
+
+## Key Features
+
+1. **User-friendly Web Interface**: Allows users to input house details (area, number of rooms, location).
+2. **AI-powered Predictions**: Utilizes an AI model to estimate house prices based on the provided inputs.
+3. **Price Display**: Shows the estimated price to the user in an intuitive format.
+
+## Tech Stack (Initial)
+
+- **Front-end**: HTML, CSS, JavaScript, React
+- **Back-end**: Python, Django
+- **Database**: SQL
