@@ -1,0 +1,11 @@
+:root {
+  /* Colors */
+  --royal-blue-web-color: hsla(221, 83%, 53%, 1);
+  --picton-blue: hsla(199, 89%, 48%, 1);
+  --antiflash-white: hsla(210, 40%, 96%, 1);
+  --prussian-blue: hsla(217, 33%, 17%, 1);
+  --cadet-gray: hsla(215, 20%, 65%, 1);
+
+  /* Font */
+  --font-family: "Inter", sans-serif;
+}
