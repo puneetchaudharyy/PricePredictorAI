@@ -5,7 +5,7 @@ const Navbar = () => {
   return (
     <div>
       <nav className="navbar">
-        <h1>Price Predictor AI</h1>
+        <h1>PricePredictorAI</h1>
         <ul className="nav-links">
           <li>
             <a href="#">Home</a>
