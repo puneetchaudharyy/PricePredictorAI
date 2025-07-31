@@ -1,18 +1,54 @@
-import React from "react";
 import "./Header.css";
+import React from "react";
+
+const smoothScrollTo = (target, duration = 1500) => {
+  const start = window.scrollY;
+  const end = target.getBoundingClientRect().top + window.scrollY;
+  const change = end - start;
+  const startTime = performance.now();
+
+  function animateScroll(currentTime) {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    window.scrollTo(0, start + change * easeInOutQuad(progress));
+    if (progress < 1) {
+      requestAnimationFrame(animateScroll);
+    }
+  }
+
+  function easeInOutQuad(t) {
+    return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+  }
+
+  requestAnimationFrame(animateScroll);
+};
 
 const Header = () => {
+  const scrollToMainBody = () => {
+    const section = document.getElementById("main-body");
+    if (section) {
+      smoothScrollTo(section, 1500); // 1500ms = 1.5 seconds
+    }
+  };
+
   return (
     <header className="header">
       <h1 className="header-title">
-        WANT TO BUY A HOUSE? BUT DON'T KNOW WHERE, HOW AND IF IT EVEN FITS YOUT
+        WANT TO BUY A HOUSE? BUT DON'T KNOW WHERE, HOW AND IF IT EVEN FITS YOUR
         BUDGET?
+        <br />
         <br />
         Use PricePredictorAI to weigh out your options!
       </h1>
-      <h3 className="get-estimate-button">Get your estimate!</h3>
-      <h3 className="how-to-text">First time using PricePredictor? Click here 👇🏻</h3>
-      <a href="#" className="how-to-button">HOW TO USE?</a>
+      <button onClick={scrollToMainBody} className="get-estimate-button">
+        Get your estimate!
+      </button>
+      <h3 className="how-to-text">
+        First time using PricePredictor? Click here 👇🏻
+      </h3>
+      <a href="#" className="how-to-button">
+        HOW TO USE?
+      </a>
     </header>
   );
 };
