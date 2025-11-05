@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios"; // Add this import
 import "./MainBody.css";
 
 const YesNoInput = ({ label, name, value, onChange, required }) => {
@@ -52,6 +53,11 @@ const MainBody = () => {
     furnished: "",
   });
 
+  // Add these three state variables for handling API response
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState(null);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -60,10 +66,74 @@ const MainBody = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  // Update handleSubmit to use axios
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Handle form submission logic here
+
+    // Reset previous results
+    setLoading(true);
+    setError(null);
+    setResult(null);
+
+    // TEMPORARY: Mock response for testing without backend
+    try {
+      console.log("Form Data:", formData);
+
+      // Simulate API delay
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      // Mock successful response
+      const mockResponse = {
+        success: true,
+        message: "Property data received (MOCK)",
+        property_id: 123,
+        predicted_price: 450000,
+      };
+
+      console.log("Mock Success:", mockResponse);
+      setResult(mockResponse);
+    } catch (err) {
+      console.error("Error:", err);
+      setError("An error occurred");
+    } finally {
+      setLoading(false);
+    }
+
+    // try {
+    //   // Send data to Django backend
+    //   const response = await axios.post(
+    //     "http://localhost:8000/api/predict/",
+    //     formData,
+    //     {
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //     }
+    //   );
+
+    //   console.log("Success:", response.data);
+    //   setResult(response.data); // Store the result
+    // } catch (err) {
+    //   console.error("Error:", err);
+
+    //   // Handle different error types
+    //   if (err.response) {
+    //     // Server responded with error
+    //     setError(
+    //       err.response.data.errors ||
+    //         err.response.data.message ||
+    //         "Server error occurred"
+    //     );
+    //   } else if (err.request) {
+    //     // Request made but no response
+    //     setError("No response from server. Please check if Django is running.");
+    //   } else {
+    //     // Something else went wrong
+    //     setError("An error occurred. Please try again.");
+    //   }
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   return (
@@ -231,11 +301,35 @@ const MainBody = () => {
             </div>
           </div>
 
-          {/* Submit Button */}
-          <button type="submit" className="estimate-button">
-            Get Estimate
+          {/* Submit Button with loading state */}
+          <button type="submit" className="estimate-button" disabled={loading}>
+            {loading ? "Loading..." : "Get Estimate"}
           </button>
         </form>
+
+        {/* Display Success Result */}
+        {result && (
+          <div className="result-success">
+            <h2>✅ Prediction Result</h2>
+            <p>{result.message}</p>
+            {result.predicted_price && (
+              <div className="price-display">
+                <h3>
+                  Estimated Price: ${result.predicted_price.toLocaleString()}
+                </h3>
+              </div>
+            )}
+            <p>Property ID: {result.property_id}</p>
+          </div>
+        )}
+
+        {/* Display Error */}
+        {error && (
+          <div className="result-error">
+            <h2>Error</h2>
+            <p>{typeof error === "string" ? error : JSON.stringify(error)}</p>
+          </div>
+        )}
       </div>
     </section>
   );

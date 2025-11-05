@@ -366,3 +366,42 @@
     height: 0.625rem;
   }
 }
+
+/* Result containers */
+.result-success {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  border-radius: 8px;
+  color: #155724;
+}
+
+.result-error {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 8px;
+  color: #721c24;
+}
+
+.price-display {
+  margin: 15px 0;
+  padding: 15px;
+  background-color: white;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.price-display h3 {
+  color: #28a745;
+  font-size: 24px;
+  margin: 0;
+}
+
+/* Disabled button state */
+.estimate-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
