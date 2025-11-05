@@ -2,7 +2,7 @@
 
 ## Description
 
-PricePredictorAI is designed to help predict the price of houses in the Ontario region of Canada. The application leverages Gemini to estimate prices based on factors such as house size, the number of rooms and bathrooms, and location. While the predictions may not be fully accurate, they serve as a helpful tool for individuals exploring housing options.
+PricePredictorAI is designed to help predict the price of houses. The application leverages Gemini to estimate prices based on factors such as house size, the number of rooms and bathrooms, and location. While the predictions may not be fully accurate, they serve as a helpful tool for individuals exploring housing options.
 
 ## Intended Features (Initial)
 
@@ -10,7 +10,8 @@ Develop a web application that provides accurate house price estimates based on 
 - Area
 - Number of rooms
 - Location
-- Age 
+- Age
+Among man others.......
 
 ## Target Users
 
