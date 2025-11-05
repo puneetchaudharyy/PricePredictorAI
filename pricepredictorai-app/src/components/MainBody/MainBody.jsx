@@ -1,14 +1,55 @@
 import React, { useState } from "react";
 import "./MainBody.css";
 
+const YesNoInput = ({ label, name, value, onChange, required }) => {
+  return (
+    <div className="form-group">
+      <label className="form-label">
+        {label} {required && "*"}
+      </label>
+      <div className="radio-group">
+        <label className="radio-label">
+          <input
+            type="radio"
+            name={name}
+            value="yes"
+            checked={value === "yes"}
+            onChange={onChange}
+            required={required}
+          />
+          Yes
+        </label>
+        <label className="radio-label">
+          <input
+            type="radio"
+            name={name}
+            value="no"
+            checked={value === "no"}
+            onChange={onChange}
+            required={required}
+          />
+          No
+        </label>
+      </div>
+    </div>
+  );
+};
+
 const MainBody = () => {
   const [formData, setFormData] = useState({
     area: "",
     unit: "sq m",
-    location: "",
     bedrooms: "",
     bathrooms: "",
-    propertyAge: "",
+    stories: "",
+    onMainRoad: "",
+    hasGuestroom: "",
+    hasBasement: "",
+    hasHotWaterHeating: "",
+    hasAirConditioning: "",
+    hasPrefareArea: "",
+    hasParkingSpace: "",
+    furnished: "",
   });
 
   const handleInputChange = (e) => {
@@ -34,7 +75,7 @@ const MainBody = () => {
           {/* Area Input */}
           <div className="form-group">
             <label htmlFor="area" className="form-label">
-              How big of a house are you looking for?
+              How big of a house are you looking for? *
             </label>
             <div className="input-group">
               <input
@@ -45,6 +86,7 @@ const MainBody = () => {
                 onChange={handleInputChange}
                 placeholder="Enter area"
                 className="form-input area-input"
+                min="1"
                 required
               />
               <select
@@ -59,82 +101,133 @@ const MainBody = () => {
             </div>
           </div>
 
-          {/* Location Input */}
+          {/* Number of bedrooms */}
           <div className="form-group">
-            <label htmlFor="location" className="form-label">
-              Where exactly are you looking for a house?
+            <label htmlFor="bedrooms" className="form-label">
+              Number of bedrooms *
             </label>
-            <p className="form-hint">
-              (make it as precise as possible for most accurate results)
-            </p>
-            <textarea
-              id="location"
-              name="location"
-              value={formData.location}
+            <input
+              type="number"
+              id="bedrooms"
+              name="bedrooms"
+              value={formData.bedrooms}
               onChange={handleInputChange}
-              placeholder="Enter specific location, address, or area"
-              className="form-textarea"
-              rows="3"
+              placeholder="Number of bedrooms"
+              className="form-input"
+              min="1"
               required
             />
           </div>
 
-          {/* Optional Properties Section */}
-          <div className="optional-section">
-            <h3 className="section-title">
-              Other optional properties{" "}
-              <span className="section-hint">(helps narrow down results)</span>
-            </h3>
+          {/* Number of bathrooms */}
+          <div className="form-group">
+            <label htmlFor="bathrooms" className="form-label">
+              Number of bathrooms *
+            </label>
+            <input
+              type="number"
+              id="bathrooms"
+              name="bathrooms"
+              value={formData.bathrooms}
+              onChange={handleInputChange}
+              placeholder="Number of bathrooms"
+              className="form-input"
+              min="1"
+              required
+            />
+          </div>
 
-            {/* Bedrooms */}
-            <div className="form-group">
-              <label htmlFor="bedrooms" className="form-label">
-                Number of bed rooms
-              </label>
-              <input
-                type="number"
-                id="bedrooms"
-                name="bedrooms"
-                value={formData.bedrooms}
-                onChange={handleInputChange}
-                placeholder="Number of bedrooms"
-                className="form-input"
-                min="0"
-              />
-            </div>
+          {/* Number of stories*/}
+          <div className="form-group">
+            <label htmlFor="stories" className="form-label">
+              Number of stories
+            </label>
+            <input
+              type="number"
+              id="stories"
+              name="stories"
+              value={formData.stories}
+              onChange={handleInputChange}
+              placeholder="Number of stories"
+              className="form-input"
+              min="1"
+            />
+          </div>
 
-            {/* Bathrooms */}
-            <div className="form-group">
-              <label htmlFor="bathrooms" className="form-label">
-                Number of bathrooms
-              </label>
-              <input
-                type="number"
-                id="bathrooms"
-                name="bathrooms"
-                value={formData.bathrooms}
-                onChange={handleInputChange}
-                placeholder="Number of bathrooms"
-                className="form-input"
-                min="0"
-              />
-            </div>
+          {/* Yes/No Questions */}
+          <YesNoInput
+            label="Is it on the main road?"
+            name="onMainRoad"
+            value={formData.onMainRoad}
+            onChange={handleInputChange}
+          />
 
-            {/* Property Age */}
-            <div className="form-group">
-              <label htmlFor="propertyAge" className="form-label">
-                Age of the property
+          <YesNoInput
+            label="Does it have a guest room?"
+            name="hasGuestroom"
+            value={formData.hasGuestroom}
+            onChange={handleInputChange}
+          />
+
+          <YesNoInput
+            label="Does it have a basement?"
+            name="hasBasement"
+            value={formData.hasBasement}
+            onChange={handleInputChange}
+          />
+
+          <YesNoInput
+            label="Does it have hot water heating?"
+            name="hasHotWaterHeating"
+            value={formData.hasHotWaterHeating}
+            onChange={handleInputChange}
+          />
+
+          <YesNoInput
+            label="Does it have air conditioning?"
+            name="hasAirConditioning"
+            value={formData.hasAirConditioning}
+            onChange={handleInputChange}
+          />
+
+          <YesNoInput
+            label="Does it have a perfare area?"
+            name="hasPrefareArea"
+            value={formData.hasPrefareArea}
+            onChange={handleInputChange}
+          />
+
+          <YesNoInput
+            label="Does it have a parking space?"
+            name="hasParkingSpace"
+            value={formData.hasParkingSpace}
+            onChange={handleInputChange}
+          />
+
+          {/* Furnished toggle: Furnished vs Semi-furnished */}
+          <div className="form-group">
+            <label className="form-label">Is the property furnished?</label>
+            <div className="radio-group">
+              <label className="radio-label">
+                <input
+                  type="radio"
+                  name="furnished"
+                  value="furnished"
+                  checked={formData.furnished === "furnished"}
+                  onChange={handleInputChange}
+                />
+                Furnished
               </label>
-              <input
-                type="number"
-                id="propertyAge"
-                name="propertyAge"
-                value={formData.propertyAge}
-                onChange={handleInputChange}
-                placeholder="Age of the property (in years)"
-                className="form-input"
-                min="0"
-              />
+              <label className="radio-label">
+                <input
+                  type="radio"
+                  name="furnished"
+                  value="semi-furnished"
+                  checked={formData.furnished === "semi-furnished"}
+                  onChange={handleInputChange}
+                />
+                Semi-furnished
+              </label>
             </div>
           </div>
 
