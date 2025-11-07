@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Property
 from .serializer import PropertySerializer
+import tensorflow as tf
 
 @api_view(['POST'])
 def predict_price(request):
@@ -27,14 +28,16 @@ def predict_price(request):
     if serializer.is_valid():
         # Save the property
         property_instance = serializer.save()
+
+        ml_model = tf.keras.models.load_model('../../ml_training/models/house_price_model.keras')
         
-        # Here you would call your ML model for prediction
-        # predicted_price = your_ml_model.predict(property_instance)
-        
+        # Call the ML model for prediction
+        predicted_price = ml_model.predict(property_instance)
+
         return Response({
             'message': 'Property data received successfully',
             'property_id': property_instance.id,
-            # 'predicted_price': predicted_price
+            'predicted_price': predicted_price
         }, status=status.HTTP_201_CREATED)
     
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

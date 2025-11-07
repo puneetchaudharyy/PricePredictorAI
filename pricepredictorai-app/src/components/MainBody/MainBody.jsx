@@ -76,64 +76,64 @@ const MainBody = () => {
     setResult(null);
 
     // TEMPORARY: Mock response for testing without backend
-    try {
-      console.log("Form Data:", formData);
-
-      // Simulate API delay
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      // Mock successful response
-      const mockResponse = {
-        success: true,
-        message: "Property data received (MOCK)",
-        property_id: 123,
-        predicted_price: 450000,
-      };
-
-      console.log("Mock Success:", mockResponse);
-      setResult(mockResponse);
-    } catch (err) {
-      console.error("Error:", err);
-      setError("An error occurred");
-    } finally {
-      setLoading(false);
-    }
-
     // try {
-    //   // Send data to Django backend
-    //   const response = await axios.post(
-    //     "http://localhost:8000/api/predict/",
-    //     formData,
-    //     {
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //     }
-    //   );
+    //   console.log("Form Data:", formData);
 
-    //   console.log("Success:", response.data);
-    //   setResult(response.data); // Store the result
+    //   // Simulate API delay
+    //   await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    //   // Mock successful response
+    //   const mockResponse = {
+    //     success: true,
+    //     message: "Property data received (MOCK)",
+    //     property_id: 123,
+    //     predicted_price: 450000,
+    //   };
+
+    //   console.log("Mock Success:", mockResponse);
+    //   setResult(mockResponse);
     // } catch (err) {
     //   console.error("Error:", err);
-
-    //   // Handle different error types
-    //   if (err.response) {
-    //     // Server responded with error
-    //     setError(
-    //       err.response.data.errors ||
-    //         err.response.data.message ||
-    //         "Server error occurred"
-    //     );
-    //   } else if (err.request) {
-    //     // Request made but no response
-    //     setError("No response from server. Please check if Django is running.");
-    //   } else {
-    //     // Something else went wrong
-    //     setError("An error occurred. Please try again.");
-    //   }
+    //   setError("An error occurred");
     // } finally {
     //   setLoading(false);
     // }
+
+    try {
+      // Send data to Django backend
+      const response = await axios.post(
+        "http://localhost:8000/api/predict/",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("Success:", response.data);
+      setResult(response.data); // Store the result
+    } catch (err) {
+      console.error("Error:", err);
+
+      // Handle different error types
+      if (err.response) {
+        // Server responded with error
+        setError(
+          err.response.data.errors ||
+            err.response.data.message ||
+            "Server error occurred"
+        );
+      } else if (err.request) {
+        // Request made but no response
+        setError("No response from server. Please check if Django is running.");
+      } else {
+        // Something else went wrong
+        setError("An error occurred. Please try again.");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
