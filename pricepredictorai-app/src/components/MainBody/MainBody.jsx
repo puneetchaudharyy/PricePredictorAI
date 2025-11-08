@@ -159,15 +159,10 @@ const MainBody = () => {
                 min="1"
                 required
               />
-              <select
-                name="unit"
-                value={formData.unit}
-                onChange={handleInputChange}
-                className="unit-select"
-              >
-                <option value="sq m">sq m</option>
-                <option value="sq ft">sq ft</option>
-              </select>
+              <div className="unit-display">
+                <span className="unit-text">sq m</span>
+                <input type="hidden" name="unit" value="sq m" />
+              </div>
             </div>
           </div>
 
