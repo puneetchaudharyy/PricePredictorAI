@@ -123,5 +123,5 @@ print(f"Test MAE: {mae:,.2f}")
 
 # ==================== SAVE MODEL ====================
 print("\n========== SAVING MODEL ==========")
-model.save(os.path.join(model_dir, 'house_price_model.keras'))
-print(f"✓ Model saved to {model_dir}/house_price_model.keras")
+model.save(os.path.join(model_dir, 'house_price_model.h5'))
+print(f"✓ Model saved to {model_dir}/house_price_model.h5")

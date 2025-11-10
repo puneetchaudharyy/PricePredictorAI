@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios"; // Add this import
+import axios from "axios";
 import "./MainBody.css";
 
 const YesNoInput = ({ label, name, value, onChange, required }) => {
@@ -269,7 +269,7 @@ const MainBody = () => {
             onChange={handleInputChange}
           />
 
-          {/* Furnished toggle: Furnished vs Semi-furnished */}
+          {/* Furnished toggle */}
           <div className="form-group">
             <label className="form-label">Is the property furnished?</label>
             <div className="radio-group">
@@ -277,11 +277,11 @@ const MainBody = () => {
                 <input
                   type="radio"
                   name="furnished"
-                  value="furnished"
-                  checked={formData.furnished === "furnished"}
+                  value="unfurnished"
+                  checked={formData.furnished === "unfurnished"}
                   onChange={handleInputChange}
                 />
-                Furnished
+                Unfurnished
               </label>
               <label className="radio-label">
                 <input
@@ -292,6 +292,16 @@ const MainBody = () => {
                   onChange={handleInputChange}
                 />
                 Semi-furnished
+              </label>
+              <label className="radio-label">
+                <input
+                  type="radio"
+                  name="furnished"
+                  value="furnished"
+                  checked={formData.furnished === "furnished"}
+                  onChange={handleInputChange}
+                />
+                Furnished
               </label>
             </div>
           </div>

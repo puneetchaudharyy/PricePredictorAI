@@ -1,44 +1,101 @@
-from django.shortcuts import render
+import numpy as np
+import tensorflow as tf
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Property
 from .serializer import PropertySerializer
-import tensorflow as tf
+import os
+
+# Load model and normalization parameters at startup
+MODEL_PATH = '../../ml_training/models/house_price_model.h5'
+MEAN_PATH = '../../ml_training/models/mean.npy'
+STD_PATH = '../../ml_training/models/std.npy'
+
+try:
+    ml_model = tf.keras.models.load_model(MODEL_PATH)
+    mean = np.load(MEAN_PATH)
+    std = np.load(STD_PATH)
+    print("✓ Model and normalization parameters loaded successfully")
+except Exception as e:
+    print(f"⚠ Warning: Could not load model - {e}")
+    ml_model = None
+    mean = None
+    std = None
 
 @api_view(['POST'])
 def predict_price(request):
-    # Map React field names to Django model field names
-    data = {
-        'area': request.data.get('area'),
-        'bedrooms': request.data.get('bedrooms'),
-        'bathrooms': request.data.get('bathrooms'),
-        'stories': request.data.get('stories'),
-        'mainroad': request.data.get('onMainRoad') == 'yes',
-        'guestroom': request.data.get('hasGuestroom') == 'yes',
-        'basement': request.data.get('hasBasement') == 'yes',
-        'hotwaterheating': request.data.get('hasHotWaterHeating') == 'yes',
-        'airconditioning': request.data.get('hasAirConditioning') == 'yes',
-        'prefarea': request.data.get('hasPrefareArea') == 'yes',
-        'furnishingstatus': request.data.get('furnished'),
-    }
+    """Predict house price based on input features"""
     
-    serializer = PropertySerializer(data=data)
-    
-    if serializer.is_valid():
-        # Save the property
-        property_instance = serializer.save()
-
-        ml_model = tf.keras.models.load_model('../../ml_training/models/house_price_model.keras')
-        
-        # Call the ML model for prediction
-        predicted_price = ml_model.predict(property_instance)
-
+    if ml_model is None:
         return Response({
-            'message': 'Property data received successfully',
-            'property_id': property_instance.id,
-            'predicted_price': predicted_price
-        }, status=status.HTTP_201_CREATED)
+            'error': 'Model not loaded. Please train the model first.'
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+    try:
+        # Get data from request
+        data = request.data
+        
+        # Map furnished status to numeric
+        furnished_map = {
+            'unfurnished': 0,
+            'semi-furnished': 1,
+            'furnished': 2
+        }
+        
+        # Convert yes/no to 1/0
+        def yes_no_to_int(value):
+            return 1 if value == 'yes' else 0
+        
+        # Prepare features in the EXACT order used during training
+        features = np.array([[
+            float(data.get('area', 0)),
+            int(data.get('bedrooms', 0)),
+            int(data.get('bathrooms', 0)),
+            int(data.get('stories', 1)),
+            yes_no_to_int(data.get('onMainRoad', 'no')),
+            yes_no_to_int(data.get('hasGuestroom', 'no')),
+            yes_no_to_int(data.get('hasBasement', 'no')),
+            yes_no_to_int(data.get('hasHotWaterHeating', 'no')),
+            yes_no_to_int(data.get('hasAirConditioning', 'no')),
+            yes_no_to_int(data.get('hasPrefareArea', 'no')),
+            yes_no_to_int(data.get('hasParkingSpace', 'no')),
+            furnished_map.get(data.get('furnished','semi-furnished','unfurnished'), 0),
+        ]])
+        
+        # Normalize features using saved mean and std
+        features_normalized = (features - mean) / std
+        
+        # Make prediction
+        prediction = ml_model.predict(features_normalized, verbose=0)
+        predicted_price = float(prediction[0][0])
+        
+        # Optional: Save to database if you have a Property model
+        property_data = {
+            'area': data.get('area'),
+            'bedrooms': data.get('bedrooms'),
+            'bathrooms': data.get('bathrooms'),
+            'stories': data.get('stories'),
+            'mainroad': yes_no_to_int(data.get('onMainRoad', 'no')),
+            'guestroom': yes_no_to_int(data.get('hasGuestroom', 'no')),
+            'basement': yes_no_to_int(data.get('hasBasement', 'no')),
+            'hotwaterheating': yes_no_to_int(data.get('hasHotWaterHeating', 'no')),
+            'airconditioning': yes_no_to_int(data.get('hasAirConditioning', 'no')),
+            'prefarea': yes_no_to_int(data.get('hasPrefareArea', 'no')),
+            'furnishingstatus': data.get('furnished','semi-furnished','unfurnished'),
+            'predicted_price': predicted_price
+        }
+        serializer = PropertySerializer(data=property_data)
+        if serializer.is_valid():
+            property_instance = serializer.save()
+        
+        return Response({
+            'success': True,
+            'message': 'Prediction successful',
+            'predicted_price': round(predicted_price, 2),
+            'property_id': property_instance.id if property_instance else None
+        }, status=status.HTTP_200_OK)
+    
+    except Exception as e:
+        return Response({
+            'error': f'Prediction error: {str(e)}'
+        }, status=status.HTTP_400_BAD_REQUEST)
