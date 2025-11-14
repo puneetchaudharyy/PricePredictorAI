@@ -16,9 +16,19 @@ Including another URLconf
 """
 from base import views
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
+from dj_rest_auth.registration.views import SocialLoginView
+from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+from allauth.socialaccount.providers.oauth2.client import OAuth2Client
+
+class GoogleLogin(SocialLoginView):
+    adapter_class = GoogleOAuth2Adapter
+    client_class = OAuth2Client
+    callback_url = "http://localhost:3000"
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/predict/', views.predict_price, name='predict_price'),
+    path('accounts/', include('allauth.urls')),
+    path('api/auth/google/', GoogleLogin.as_view(), name='google_login'),
 ]

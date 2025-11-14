@@ -160,8 +160,8 @@ const MainBody = () => {
                 required
               />
               <div className="unit-display">
-                <span className="unit-text">sq m</span>
-                <input type="hidden" name="unit" value="sq m" />
+                <span className="unit-text">sq ft</span>
+                <input type="hidden" name="unit" value="sq ft" />
               </div>
             </div>
           </div>
@@ -316,7 +316,6 @@ const MainBody = () => {
         {result && (
           <div className="result-success">
             <h2>✅ Prediction Result</h2>
-            <p>{result.message}</p>
             {result.predicted_price && (
               <div className="price-display">
                 <h3>
@@ -324,7 +323,6 @@ const MainBody = () => {
                 </h3>
               </div>
             )}
-            <p>Property ID: {result.property_id}</p>
           </div>
         )}
 

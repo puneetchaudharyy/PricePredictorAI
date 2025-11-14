@@ -15,7 +15,6 @@ class Property(models.Model):
     prefarea = models.BooleanField(help_text="Is the property in a preferred area?", blank = True, null = True)
     furnishingstatus = models.CharField(help_text="Furnishing status of the property", blank = True, null = True)
     predicted_price = models.FloatField(help_text="Predicted price of the property", blank = True, null = True)
-    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"Property with {self.bedrooms} bedrooms, {self.bathrooms} bathrooms, and {self.area} sqft area"

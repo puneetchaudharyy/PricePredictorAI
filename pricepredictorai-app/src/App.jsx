@@ -4,18 +4,20 @@ import Navbar from "./components/Navbar/Navbar.jsx";
 import Header from "./components/Header/Header.jsx";
 import MainBody from "./components/MainBody/MainBody.jsx";
 import Footer from "./components/Footer/Footer.jsx";
+import web from "../../../client_info.json";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const App = () => {
   return (
-    <div>
-      <Navbar />
-      <Header />
-      <MainBody />
-      <Footer />
-    </div>
+    <GoogleOAuthProvider clientId={web.web.client_id}>
+      <div>
+        <Navbar />
+        <Header />
+        <MainBody />
+        <Footer />
+      </div>
+    </GoogleOAuthProvider>
   );
 };
-
-
 
 export default App;

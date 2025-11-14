@@ -101,7 +101,7 @@ model = tf.keras.Sequential([
     tf.keras.layers.Dense(1)
 ])
 
-model.compile(optimizer='adam', loss='mse', metrics=['mae'])
+model.compile(optimizer='adam', loss='mse',metrics=[tf.keras.metrics.MeanAbsoluteError()])
 print("✓ Model built and compiled")
 
 # ==================== MODEL TRAINING ====================
@@ -117,9 +117,11 @@ history = model.fit(
 
 # ==================== EVALUATION ====================
 print("\n========== EVALUATION ==========")
-loss, mae = model.evaluate(test_data_normalized, test_labels, verbose=0)
+loss, *metrics = model.evaluate(test_data_normalized, test_labels, verbose=0)
 print(f"Test Loss (MSE): {loss:,.2f}")
-print(f"Test MAE: {mae:,.2f}")
+for i, metric in enumerate(metrics):
+    print(f"Test Metric {i+1}: {metric:,.2f}")
+
 
 # ==================== SAVE MODEL ====================
 print("\n========== SAVING MODEL ==========")

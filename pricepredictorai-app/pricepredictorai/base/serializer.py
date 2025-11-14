@@ -4,7 +4,7 @@ from .models import Property
 class PropertySerializer(serializers.ModelSerializer):
     class Meta:
         model = Property
-        fields = ['area', 'unit', 'location', 'bedrooms', 'bathrooms', 'property_age', 'predicted_price']
+        fields = ['area', 'bedrooms', 'bathrooms', 'stories', 'mainroad', 'guestroom', 'basement', 'hotwaterheating', 'airconditioning', 'prefarea', 'furnishingstatus', 'predicted_price']
         
     def validate_area(self, value):
         """
