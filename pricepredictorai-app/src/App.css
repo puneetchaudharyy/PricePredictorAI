@@ -1,1 +1,5 @@
 @import "./vars.css";
+
+html {
+  scroll-behavior: smooth;
+}

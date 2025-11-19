@@ -24,6 +24,17 @@
     transition: color 0.2s;
 }
 
+.nav-links li button {
+    background: none;
+    border: none;
+    color: var(--prussian-blue);
+    font-family: var(--font-family);
+    cursor: pointer;
+    transition: color 0.2s;
+    font-size: 1rem;
+    padding: 0;
+}
+
 .auth-links {
     display: flex;
     gap: 1rem;

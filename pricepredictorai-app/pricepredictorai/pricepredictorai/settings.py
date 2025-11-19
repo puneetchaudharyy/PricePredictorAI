@@ -140,6 +140,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",  # React dev server
     "http://127.0.0.1:8000",  # Django dev server
     "http://localhost:3000",  # Another common React dev server port
+    
 ]   
 
 # Allauth settings

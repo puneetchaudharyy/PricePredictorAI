@@ -1,0 +1,106 @@
+:root {
+  --royal-blue-web-color: hsla(221, 83%, 53%, 1);
+  --picton-blue: hsla(199, 89%, 48%, 1);
+  --antiflash-white: hsla(210, 40%, 96%, 1);
+  --prussian-blue: hsla(217, 33%, 17%, 1);
+  --cadet-gray: hsla(215, 20%, 65%, 1);
+  --font-family: "Inter", sans-serif;
+}
+
+body {
+  background: var(--antiflash-white);
+  color: var(--prussian-blue);
+  font-family: var(--font-family), Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.how-to-use-section {
+  background: #fff;
+  color: var(--prussian-blue);
+  max-width: 1000px;
+  margin: 2.5rem auto;
+  padding: 3.5rem 6vw;
+  border-radius: 24px;
+  box-shadow:
+    0 8px 40px 4px rgba(32, 41, 81, 0.13),
+    0 1.5px 9px 0 rgba(80, 150, 250, 0.15);
+  min-height: 40vh;
+  box-sizing: border-box;
+  transition: box-shadow 0.3s;
+}
+
+/* Section heading styled like About */
+.section-title {
+  background: var(--royal-blue-web-color);
+  color: #fff;
+  border-radius: 11px 11px 0 0;
+  padding: 1.2rem 1rem 0.8rem 1rem;
+  margin-top: 0;
+  margin-bottom: 1.3rem;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  box-shadow: 0 2px 7px 0 rgba(53,107,217,0.10);
+}
+
+/* Steps container formatting */
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 2.2rem;
+  margin-top: 1.4em;
+  margin-bottom: 1.2em;
+}
+
+/* Step formatting, but keep these cards minimal to match .about-section */
+.step {
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+}
+
+/* Step title styling to match About's h3 */
+.step-title {
+  margin-top: 0;
+  margin-bottom: 0.6rem;
+  color: var(--picton-blue);
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+/* Step description matches paragraph style */
+.step-description {
+  color: var(--prussian-blue);
+  font-size: 1.09rem;
+  line-height: 1.6;
+  margin: 0 0 0.7em 0;
+}
+
+/* Optional: strong highlights */
+.step-description strong {
+  color: var(--royal-blue-web-color);
+  font-weight: 700;
+}
+
+/* Responsive design for mobile */
+@media (max-width: 900px) {
+  .how-to-use-section {
+    padding: 2.2rem 3vw;
+    border-radius: 13px;
+    max-width: 99vw;
+  }
+}
+
+@media (max-width: 600px) {
+  .how-to-use-section {
+    padding: 1.2rem 1vw;
+    border-radius: 8px;
+  }
+  .section-title {
+    padding: 0.8rem 0.5rem 0.5rem 0.5rem;
+    font-size: 1.2rem;
+  }
+}
