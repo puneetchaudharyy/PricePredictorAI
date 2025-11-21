@@ -94,7 +94,13 @@ const Navbar = () => {
             </button>
           </li>
           <li>
-            <a href="#">Contact</a>
+            <button
+              onClick={() =>
+                smoothScrollTo(document.getElementById("contact"), 4500)
+              }
+            >
+              Contact
+            </button>
           </li>
         </ul>
         <ul className="auth-links">

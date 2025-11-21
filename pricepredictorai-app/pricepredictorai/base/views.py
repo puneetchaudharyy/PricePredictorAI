@@ -5,6 +5,10 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework import status
 from .serializer import PropertySerializer
+from django.core.mail import send_mail
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
 import os
 
 # Load model and normalization parameters at startup
@@ -135,3 +139,41 @@ def predict_price(request):
         return Response({
             'error': f'Prediction error: {str(e)}'
         }, status=status.HTTP_400_BAD_REQUEST)
+
+@csrf_exempt
+def contact_api(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        name = data.get("name", "")
+        email = data.get("email", "")
+        message = data.get("message", "")
+        subject = f"New Contact Form Submission from {name}"
+
+        # Message for site owner
+        owner_msg = f"Name: {name}\nEmail: {email}\nMessage:\n{message}"
+        send_mail(
+            subject,
+            owner_msg,
+            "puneet.chdry008@gmail.com",  # Sender email
+            ["puneet.chdry008@gmail.com"],  # Your email
+            fail_silently=False,
+        )
+
+        # Confirmation for user
+        user_subject = "Thank you for contacting PricePredictorAI"
+        user_msg = (
+            f"Hi {name},\n\n"
+            "Thank you for reaching out! Here’s a copy of your message:\n"
+            f"{message}\n\n"
+            "We’ll get back to you soon."
+        )
+        send_mail(
+            user_subject,
+            user_msg,
+            "puneet.chdry008@gmail.com",  # Sender email, must match allowed email for SMTP
+            [email],  # User's email
+            fail_silently=False,
+        )
+
+        return JsonResponse({"status": "OK"})
+    return JsonResponse({"error": "Only POST allowed"}, status=405)

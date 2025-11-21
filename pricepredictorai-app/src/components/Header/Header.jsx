@@ -46,9 +46,14 @@ const Header = () => {
       <h3 className="how-to-text">
         First time using PricePredictor? Click here 👇🏻
       </h3>
-      <a href="#" className="how-to-button">
-        HOW TO USE?
-      </a>
+      <button
+        onClick={() =>
+          smoothScrollTo(document.getElementById("how-to-use"), 3500)
+        }
+        className="how-to-button"
+      >
+        How to use?
+      </button>
     </header>
   );
 };

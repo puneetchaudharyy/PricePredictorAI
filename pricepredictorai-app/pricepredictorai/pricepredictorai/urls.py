@@ -31,4 +31,5 @@ urlpatterns = [
     path('api/predict/', views.predict_price, name='predict_price'),
     path('accounts/', include('allauth.urls')),
     path('api/auth/google/', GoogleLogin.as_view(), name='google_login'),
+    path("api/contact/", views.contact_api, name="contact_api"),
 ]
