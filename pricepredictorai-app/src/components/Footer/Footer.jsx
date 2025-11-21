@@ -8,8 +8,8 @@ const Footer = () => {
         <p>&copy; 2025 HousePricePredictor. All rights reserved.</p>
 
         <nav className="footer-links">
-          <a href="/about">About</a>
-          <a href="/contact">Contact</a>
+          <a href="#about">About</a>
+          <a href="mailto:puneet.chdry008@gmail.com">Contact</a>
         </nav>
 
         <div className="footer-social">
