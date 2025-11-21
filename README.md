@@ -11,7 +11,7 @@ Develop a web application that provides accurate house price estimates based on 
 - Number of rooms
 - Location
 - Age
-Among man others.......
+among many others.......
 
 ## Target Users
 
