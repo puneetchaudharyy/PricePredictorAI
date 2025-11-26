@@ -9,3 +9,7 @@ django-allauth
 dj-rest-auth
 PyJWT
 gunicorn
+dj-database-url
+gunicorn
+whitenoise
+psycopg2-binary
