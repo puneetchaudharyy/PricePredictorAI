@@ -12,9 +12,9 @@ import json
 import os
 
 # Load model and normalization parameters at startup
-MODEL_PATH = '../ml_training/models/house_price_model.h5'
-MEAN_PATH = '../ml_training/models/mean.npy'
-STD_PATH = '../ml_training/models/std.npy'
+MODEL_PATH = '../../ml_training/models/house_price_model.h5'
+MEAN_PATH = '../../ml_training/models/mean.npy'
+STD_PATH = '../../ml_training/models/std.npy'
 
 try:
     ml_model = tf.keras.models.load_model(MODEL_PATH, compile=False)
