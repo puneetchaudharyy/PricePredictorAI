@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./MainBody.css";
 
+const API_BASE = import.meta.env.VITE_API_URL;
+
 const YesNoInput = ({ label, name, value, onChange, required }) => {
   return (
     <div className="form-group">
@@ -102,7 +104,7 @@ const MainBody = () => {
     try {
       // Send data to Django backend
       const response = await axios.post(
-        "http://localhost:8000/api/predict/",
+        `${API_BASE}/api/predict/`,
         formData,
         {
           headers: {
