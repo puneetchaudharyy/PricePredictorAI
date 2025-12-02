@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useGoogleLogin } from "@react-oauth/google";
+// import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import "./Navbar.css";
 
@@ -57,15 +57,15 @@ const Navbar = () => {
     }
   };
 
-  const login = useGoogleLogin({
-    onSuccess: handleGoogleSuccess,
-    onError: () => console.log("Login Failed"),
-  });
+  // const login = useGoogleLogin({
+  //   onSuccess: handleGoogleSuccess,
+  //   onError: () => console.log("Login Failed"),
+  // });
 
-  const signup = useGoogleLogin({
-    onSuccess: handleGoogleSuccess,
-    onError: () => console.log("Signup Failed"),
-  });
+  // const signup = useGoogleLogin({
+  //   onSuccess: handleGoogleSuccess,
+  //   onError: () => console.log("Signup Failed"),
+  // });
 
   return (
     <div>
