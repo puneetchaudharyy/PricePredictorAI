@@ -12,11 +12,17 @@ def get_model_and_stats():
     if ML_MODEL is not None and MEAN is not None and STD is not None:
         return ML_MODEL, MEAN, STD
 
+    project_root = os.path.dirname(settings.BASE_DIR)  # .../PricePredictorAI
+
     model_path = os.path.join(
-        settings.BASE_DIR, "ml_training", "models", "house_price_model.h5"
+        project_root, "ml_training", "models", "house_price_model.h5"
     )
-    mean_path = os.path.join(settings.BASE_DIR, "ml_training", "models", "mean.npy")
-    std_path = os.path.join(settings.BASE_DIR, "ml_training", "models", "std.npy")
+    mean_path = os.path.join(
+        project_root, "ml_training", "models", "mean.npy"
+    )
+    std_path = os.path.join(
+        project_root, "ml_training", "models", "std.npy"
+    )
 
     ML_MODEL = tf.keras.models.load_model(model_path, compile=False)
     MEAN = np.load(mean_path)

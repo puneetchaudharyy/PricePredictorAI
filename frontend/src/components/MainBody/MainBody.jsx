@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "./MainBody.css";
+import "./MainBody.css";  
 
-const API_BASE = import.meta.env.VITE_API_URL;
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
+console.log("API_BASE:", API_BASE);
 
 const YesNoInput = ({ label, name, value, onChange, required }) => {
   return (
