@@ -1,65 +1,18 @@
-import os
-import json
-import numpy as np
-import tensorflow as tf
-
-from django.conf import settings
-from django.core.mail import send_mail
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework import status
-
+import numpy as np
 from .serializer import PropertySerializer
-
-
-# Lazily loaded global model + normalization stats
-ML_MODEL = None
-MEAN = None
-STD = None
-
-
-def get_model_and_stats():
-    """
-    Lazily load the TensorFlow model and normalization parameters.
-    This avoids heavy work at import time and only does it on first use.
-    """
-    global ML_MODEL, MEAN, STD
-
-    if ML_MODEL is not None and MEAN is not None and STD is not None:
-        return ML_MODEL, MEAN, STD
-
-    try:
-        model_path = os.path.join(
-            settings.BASE_DIR, "ml_training", "models", "house_price_model.h5"
-        )
-        mean_path = os.path.join(
-            settings.BASE_DIR, "ml_training", "models", "mean.npy"
-        )
-        std_path = os.path.join(
-            settings.BASE_DIR, "ml_training", "models", "std.npy"
-        )
-
-        ML_MODEL = tf.keras.models.load_model(model_path, compile=False)
-        MEAN = np.load(mean_path)
-        STD = np.load(std_path)
-        print("✓ Model and normalization parameters loaded successfully")
-    except Exception as e:
-        print(f"⚠ Warning: Could not load model or stats - {e}")
-        ML_MODEL = None
-        MEAN = None
-        STD = None
-
-    return ML_MODEL, MEAN, STD
-
+from django.core.mail import send_mail
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 @api_view(["POST"])
 @permission_classes([AllowAny])
 def predict_price(request):
-    """Predict house price based on input features."""
+    from .ml_utils import get_model_and_stats  # local import
 
     ml_model, mean, std = get_model_and_stats()
     if ml_model is None or mean is None or std is None:
