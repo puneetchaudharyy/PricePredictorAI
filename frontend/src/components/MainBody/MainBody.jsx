@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "./MainBody.css";
+import "./MainBody.css";  
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
 console.log("API_BASE:", API_BASE);
@@ -104,45 +104,34 @@ const MainBody = () => {
 
     try {
       // Send data to Django backend
-      const response = await axios.post(`${API_BASE}/api/predict/`, formData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axios.post(
+        `${API_BASE}/api/predict/`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       console.log("Success:", response.data);
       setResult(response.data); // Store the result
-      // } catch (err) {
-      //   console.error("Error:", err);
-
-      //   // Handle different error types
-      //   if (err.response) {
-      //     // Server responded with error
-      //     setError(
-      //       err.response.data.errors ||
-      //         err.response.data.message ||
-      //         "Server error occurred"
-      //     );
-      //   } else if (err.request) {
-      //     // Request made but no response
-      //     setError("No response from server. Please check if Django is running.");
-      //   } else {
-      //     // Something else went wrong
-      //     setError("An error occurred. Please try again.");
     } catch (err) {
-      console.error("Error object:", err);
-      console.error("Error response:", err.response);
-      console.error("Error request:", err.request);
+      console.error("Error:", err);
 
+      // Handle different error types
       if (err.response) {
+        // Server responded with error
         setError(
           err.response.data.errors ||
             err.response.data.message ||
-            `Server error: ${err.response.status}`
+            "Server error occurred"
         );
       } else if (err.request) {
+        // Request made but no response
         setError("No response from server. Please check if Django is running.");
       } else {
+        // Something else went wrong
         setError("An error occurred. Please try again.");
       }
     } finally {
