@@ -93,13 +93,12 @@ print(f"Final test data: {test_data_normalized.shape}")
 # ==================== MODEL DEFINITION ====================
 print("\n[6/6] Building model...")
 
+# Changed the model to a smaller one so Render can easily load it
 model = tf.keras.Sequential([
-    tf.keras.layers.Dense(64, activation='relu', input_shape=(train_data_normalized.shape[1],)),
-    tf.keras.layers.Dropout(0.2),
-    tf.keras.layers.Dense(32, activation='relu'),
-    tf.keras.layers.Dropout(0.2),
+    tf.keras.layers.Dense(32, activation='relu', input_shape=(train_data_normalized.shape[1],)),
     tf.keras.layers.Dense(1)
 ])
+
 
 model.compile(optimizer='adam', loss='mse',metrics=[tf.keras.metrics.MeanAbsoluteError()])
 print("✓ Model built and compiled")
